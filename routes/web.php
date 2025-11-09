@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\V1\CompleteTaskController;
 use App\Http\Controllers\Api\V1\TaskController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -10,4 +12,11 @@ Route::get('/', function () {
 
 Route::prefix('/api/v1')->group(function (){
     Route::apiResource('/tasks', TaskController::class);
+    Route::patch('/tasks/{task}/complete', CompleteTaskController::class);
+});
+
+Route::get('/token', function (Request $request) {
+    $token = $request->session()->token();
+    $token = csrf_token();
+    echo $token;
 });
